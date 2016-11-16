@@ -18,6 +18,14 @@ def convert(json_file):
                         item["result"]["error_message"] = (str(error_msg).replace("\"", ""))[:2000]
                 else:
                     item["result"] = {"status": "skipped", "duration": 0}
+                
+                if 'table' in item:
+                    item['rows'] = []
+                    t_line = 1
+                    item['rows'].append({"cells": item['table']['headings'], "line": item["line"] + t_line})
+                    for table_row in item['table']['rows']:
+                        t_line += 1
+                        item['rows'].append({"cells": table_row, "line": item["line"] + t_line})
             else:
                 item["uri"] = uri
                 item["description"] = ""
